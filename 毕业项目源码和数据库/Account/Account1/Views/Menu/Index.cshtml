@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@using Account1.Models;
+@model List<Menus>
+    <ul class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <li class="active">菜单管理</li>
+    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <a href="/Menu/Add" class="btn btn-primary">添加</a>
+            </div>
+            <div class="col-lg-4">
+                <form action="" method="post" class="form-inline">
+                    <label for="Name">菜单名称：</label>
+                    <input type="text" name="Name" id="Name" value="@ViewBag.Name" class="form-control" placeholder="请输入菜单名称模糊查询" />
+                    <input type="submit" value="查询" class="btn btn-success" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+
+                <th>编号</th>
+                <th>菜单名称</th>
+                <th>URL地址</th>
+                <th>上级菜单ID</th>
+                <th>备注</th>
+                <th>删除</th>
+                <th>修改</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)   //约定好的，用Model接收 action/控制器传过来的模型userinfos
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.Name</td>
+                    <td>
+                        @item.Url
+                    </td>
+                    <td>
+                        @item.Pid
+                    </td>
+                    <td>@item.Remark</td>
+                   
+                    <td>
+                        <a href="/Menu/delete/@item.ID" onclick="return confirm('是否删除')">删除</a>
+
+                    </td>
+                    <td>
+                        <a href="/Menu/Edit/@item.ID">修改</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>

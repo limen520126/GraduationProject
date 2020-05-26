@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@using Account1.Models;
+@model List<UserInfos>
+<br/>
+<ul class="breadcrumb">
+    <li><a href="#">首页</a></li>
+    <li class="active">用户管理</li>
+</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <a href="/UserInfo/AddUser" class="btn btn-primary">添加</a>
+            <a href="" class="btn btn-primary">导入</a>
+            <a href="" class="btn btn-primary">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            批量删除</a>
+        </div>
+        <div class="col-lg-6">
+            <form action="" method="post" class="form-inline">
+                <label for="departmentId">部门：</label>
+                <select name="departmentId" id="departmentId" class="form-control">
+                    <option value="0">===请选择部门===</option>
+                    @foreach (var item in ViewBag.dlist as List<Departments>)
+                    {
+                        if (item.ID.Equals(ViewBag.departmentId))
+                        {
+                            <option value="@item.ID" selected>@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ID">@item.Name</option>
+                        }
+                    }
+                </select>
+                <label for="Name">姓名：</label>
+                <input type="text" name="Name" id="Name" value="@ViewBag.Name" class="form-control" placeholder="请输入姓名模糊查询" />
+                <input type="submit" value="查询" class="btn btn-success" />
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>部门</th>
+        <th>性别</th>
+        <th>账号</th>
+        <th>密码</th>
+        <th>照片</th>
+        <th>备注</th>
+        <th>该账号拥有的角色</th>
+        <th>设置角色</th>
+        <th>删除</th>
+        <th>修改</th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.ID</td>
+            <td>@user.Name</td>
+            <td>@user.Departments.Name</td>
+            <td>@user.Sex</td>
+            <td>@user.Account</td>
+            <td>@user.Pwd</td>
+            <td><img src="~/Content/images/users/@user.Photo" height="50"/></td>
+            <td>@user.Remark</td>
+            <td>
+                @foreach (var r_user_roles in @user.R_User_Roles)
+                {
+                    @r_user_roles.Roles.Name
+
+                    <a href="/RUserRoles/DelRoles?RUserRolesID=@r_user_roles.ID" onclick="return confirm('确定删除 @user.Name 用户的 @r_user_roles.Roles.Name 角色吗？')">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                    <br />
+                }
+            </td>
+            <td>
+                <a href="/RUserRoles/SetRoles?UserID=@user.ID">
+                    设置角色
+                </a>
+            </td>
+            <td><a href="/UserInfo/Remove?UserID=@user.ID">删除</a></td>
+            <td><a href="/UserInfo/Edit?UserID=@user.ID">修改</a></td>
+        </tr>
+    }
+    <tr>
+    </tr>
+</table>
+
+<div class="row">
+    <div class="col-lg-8  form-inline">
+        <label>总共 @ViewBag.totalCount    行</label>&nbsp;&nbsp;
+        <select class="form-control" onchange="window.location = this.value;">
+            @{
+                int[] count = new[] { 5, 10, 20, 30, 50 };
+            }
+            @foreach (var item in count)
+            {
+                if (item.Equals(ViewBag.pageCount))
+                {
+                    <option value="/UserInfo/Index?departmentId=@ViewBag.departmentId&Name=@ViewBag.Name&pageIndex=@ViewBag.pageIndex&pageCount=@item" selected>@item</option>
+                }
+                else
+                {
+                    <option value="/UserInfo/Index?departmentId=@ViewBag.departmentId&Name=@ViewBag.Name&pageIndex=@ViewBag.pageIndex&pageCount=@item">@item</option>
+                }
+
+            }
+
+        </select>
+    </div>
+    <div class="col-lg-4">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+                <li class="page-item"><a class="page-link" href="/UserInfo/Index?departmentId=@ViewBag.departmentId&Name=@ViewBag.Name&pageIndex=1&pageCount=@ViewBag.pageCount">首页</a></li>
+                @if (ViewBag.pageIndex > 1)
+                {
+                    <li class="page-item"><a class="page-link" href="/UserInfo/Index?departmentId=@ViewBag.departmentId&Name=@ViewBag.Name&pageIndex=@(ViewBag.pageIndex-1)&pageCount=@ViewBag.pageCount">上一页</a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                }
+
+                <li class="page-item"><a class="page-link" href="#">@ViewBag.pageIndex</a></li>
+                @if (ViewBag.pageIndex < ViewBag.tatolPage)
+                {
+                    <li class="page-item"><a class="page-link" href="/UserInfo/Index?departmentId=@ViewBag.departmentId&Name=@ViewBag.Name&pageIndex=@(ViewBag.pageIndex+1)&pageCount=@ViewBag.pageCount">下一页</a></li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                }
+
+                <li class="page-item"><a class="page-link" href="/UserInfo/Index?departmentId=@ViewBag.departmentId&Name=@ViewBag.Name&pageIndex=@ViewBag.tatolPage&pageCount=@ViewBag.pageCount">末页</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+

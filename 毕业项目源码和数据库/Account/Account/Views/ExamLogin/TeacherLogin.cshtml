@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "TeacherLogin";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+@model Account.Models.Teacher
+<h2>老师登录</h2>
+<form action="/ExamLogin/TeacherLogin" method="post">
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            
+                @Html.LabelFor(p => p.TeacherLoginName,new { @class="control-label col-md-2"})
+          
+            <div class="col-md-10">
+                @Html.TextBoxFor(p => p.TeacherLoginName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(p => p.TeacherLoginName)
+            </div>
+        </div>
+        <div class="form-group">
+            
+                @Html.LabelFor(p => p.TeacherLoginPwd,new { @class="control-label col-md-2"})
+            
+            <div class="col-md-10">
+                @Html.PasswordFor(p => p.TeacherLoginPwd, new { @class = "form-control" })
+                @Html.ValidationMessageFor(p => p.TeacherLoginPwd)
+            </div>
+        </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value=" 登录 " class="btn btn-default" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="text-danger">
+                    @Html.ValidationMessage("flag")
+                </div>
+            </div>
+        </div>
+</form>
+
+

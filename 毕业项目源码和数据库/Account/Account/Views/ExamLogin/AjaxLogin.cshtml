@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "AjaxLogin";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+
+<h2>学生登录</h2>
+<form action="/ExamLogin/StudentLogin" method="post">
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+
+            @Html.Label("StuLoginName", "登录名", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("StuLoginName", null, new { @class = "form-control", onblur = "Check()" })
+                @Html.ValidationMessage("StuLoginName")
+                <span id="validateLoginName"></span>
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Html.Label("StuLoginPwd", "密码", new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @Html.Password("StuLoginPwd", null, new { @class = "form-control" })
+                @Html.ValidationMessage("StuLoginPwd")
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=" 登录 " class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section scripts{
+    <script type="text/javascript">
+        function Check() {
+            $.ajax({
+                type: "post",//请求方式
+                url:"@Url.Action("CheckLoginName","ExamLogin")",//请求的地址
+                async: true, //是否异步请求
+                cache: true,   //缓存
+                contentType: "application/x-www-form-urlencoded", //发送信息至服务器时内容编码类型。
+                beforeSend: function (ahr) {  //发送请求前处理的函数
+                },
+                data: {   //携带的参数
+                    "LoginName": $("#StuLoginName").val()
+                },
+                //dataType: "text",//返回数据的格式
+                success: function (value) { //请求成功后的回调函数。
+                    if (value=="true") {
+                        $("#validateLoginName").html("<font color='green'>用户存在，可登录！</font>");
+                    } else {
+                        $("#validateLoginName").html("<font color='red'>用户不存在，请先注册！</font>");
+                    }
+                },
+                error: function (xhr, em, tryThrows) { 
+                    $("#validateLoginName").html("请求出现异常，很抱歉！");
+                    //请求失败时调用此函数。
+                    //XMLHttpRequest 对象、错误信息、（可选）捕获的异常对象。
+                }
+            });
+        }
+    </script>
+}

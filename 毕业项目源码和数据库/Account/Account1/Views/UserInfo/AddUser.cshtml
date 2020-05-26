@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "AddUser";
+}
+@using Account1.Models;
+    <ul class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">用户管理</a></li>
+        <li class="active">用户添加</li>
+    </ul>
+
+    <form method="post" action="" class="form-horizontal" name="form1" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="Name">姓名：</label>
+            <input type="text" name="Name" id="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="DepartmentID">部门：</label>
+            <select name="DepartmentID" id="DepartmentID" class="form-control">
+                @foreach (var item in ViewBag.Departments as List<Departments>)
+                {
+                    <option value="@item.ID">@item.Name</option>
+                }
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label for="Sex">性别：</label>
+            <input type="radio" name="Sex" id="Sex" value="true" checked /> 男
+            <input type="radio" name="Sex" id="Sex" value="false" /> 女
+        </div>
+        <div class="form-group">
+            <label for="Account">账号：</label>
+            <input type="text" name="Account" id="Account" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="roles">角色：</label>
+            @foreach (var item in ViewBag.Roles as List<Account1.Models.Roles>)
+            {
+                <input type="checkbox" name="roles" id="roles" value="@item.ID" /> @item.Name
+            }
+        </div>
+        <div class="form-group">
+            <label for="Pwd">密码：</label>
+            <input type="password" name="Pwd" id="Pwd" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Photo">照片：</label>
+            <input type="file" name="Photo" id="Photo"  />
+        </div>
+        <div class="form-group">
+            <label for="Remark">备注：</label>
+            <textarea rows="5"  name="Remark" id="Remark" class="form-control"></textarea>
+        </div>
+        <div>
+            <a href="javascript:history.go(-1)">返回</a>
+            <input type="submit" value="保存" class="btn btn-primary"/>
+        </div>
+    </form>

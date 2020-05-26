@@ -1,0 +1,412 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AccountDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="AnswerID" />
+    </Key>
+    <Property Name="AnswerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaperID" Type="Int32" Nullable="false" />
+    <Property Name="StuID" Type="Int32" Nullable="false" />
+    <Property Name="TeacherID" Type="Int32" />
+    <Property Name="AnswerScore" Type="Int32" />
+    <Property Name="AnswerTime" Type="DateTime" Precision="3" />
+    <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+    <Property Name="BatchTime" Type="DateTime" Precision="3" />
+    <Property Name="AnswerState" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Paper" Relationship="Self.FK__Answer__PaperID__5812160E" FromRole="Answer" ToRole="Paper" />
+    <NavigationProperty Name="Student" Relationship="Self.FK__Answer__StuID__59063A47" FromRole="Answer" ToRole="Student" />
+    <NavigationProperty Name="Teacher" Relationship="Self.FK__Answer__TeacherI__59FA5E80" FromRole="Answer" ToRole="Teacher" />
+    <NavigationProperty Name="Detail" Relationship="Self.FK__Detail__AnswerID__5AEE82B9" FromRole="Answer" ToRole="Detail" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserInfos" Relationship="Self.FK_UserInfos_Departments" FromRole="Departments" ToRole="UserInfos" />
+  </EntityType>
+  <EntityType Name="Detail">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Name="DetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AnswerID" Type="Int32" Nullable="false" />
+    <Property Name="TopicID" Type="Int32" Nullable="false" />
+    <Property Name="DetailAnswer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Answer" Relationship="Self.FK__Detail__AnswerID__5AEE82B9" FromRole="Detail" ToRole="Answer" />
+    <NavigationProperty Name="Topic" Relationship="Self.FK__Detail__TopicID__5BE2A6F2" FromRole="Detail" ToRole="Topic" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pid" Type="Int32" />
+    <NavigationProperty Name="R_Role_Menus" Relationship="Self.FK_R_Role_Menus_Menus" FromRole="Menus" ToRole="R_Role_Menus" />
+  </EntityType>
+  <EntityType Name="Paper">
+    <Key>
+      <PropertyRef Name="PaperID" />
+    </Key>
+    <Property Name="PaperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaperName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PaperExplain" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PaperTime" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__PaperID__5812160E" FromRole="Paper" ToRole="Answer" />
+    <NavigationProperty Name="Topic" Relationship="Self.FK__Topic__PaperID__5CD6CB2B" FromRole="Paper" ToRole="Topic" />
+  </EntityType>
+  <EntityType Name="R_Role_Menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="MenuID" Type="Int32" />
+    <NavigationProperty Name="Menus" Relationship="Self.FK_R_Role_Menus_Menus" FromRole="R_Role_Menus" ToRole="Menus" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_R_Role_Menus_Roles" FromRole="R_Role_Menus" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="R_User_Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="RoleID" Type="Int32" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_R_User_Roles_Roles" FromRole="R_User_Roles" ToRole="Roles" />
+    <NavigationProperty Name="UserInfos" Relationship="Self.FK_R_User_Roles_UserInfos" FromRole="R_User_Roles" ToRole="UserInfos" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="R_Role_Menus" Relationship="Self.FK_R_Role_Menus_Roles" FromRole="Roles" ToRole="R_Role_Menus" />
+    <NavigationProperty Name="R_User_Roles" Relationship="Self.FK_R_User_Roles_Roles" FromRole="Roles" ToRole="R_User_Roles" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StuID" />
+    </Key>
+    <Property Name="StuID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StuName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StuLoginName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StuLoginPwd" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StuSex" Type="Boolean" Nullable="false" />
+    <Property Name="StuPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="StuEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StuGrade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__StuID__59063A47" FromRole="Student" ToRole="Answer" />
+    <NavigationProperty Name="UserInfos" Relationship="Self.FK_Student_UserInfos" FromRole="Student" ToRole="UserInfos" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+    </Key>
+    <Property Name="TeacherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TeacherName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TeacherLoginName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TeacherLoginPwd" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TeacherPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TeacherEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__TeacherI__59FA5E80" FromRole="Teacher" ToRole="Answer" />
+    <NavigationProperty Name="UserInfos" Relationship="Self.FK_Teacher_UserInfos" FromRole="Teacher" ToRole="UserInfos" />
+  </EntityType>
+  <EntityType Name="Topic">
+    <Key>
+      <PropertyRef Name="TopicID" />
+    </Key>
+    <Property Name="TopicID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TopicExplain" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TopicScore" Type="Int32" Nullable="false" />
+    <Property Name="TopicType" Type="Int32" Nullable="false" />
+    <Property Name="TopicA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TopicB" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TopicC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TopicD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TopicSort" Type="Int32" Nullable="false" />
+    <Property Name="TopicAnswer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PaperID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Detail" Relationship="Self.FK__Detail__TopicID__5BE2A6F2" FromRole="Topic" ToRole="Detail" />
+    <NavigationProperty Name="Paper" Relationship="Self.FK__Topic__PaperID__5CD6CB2B" FromRole="Topic" ToRole="Paper" />
+  </EntityType>
+  <EntityType Name="UserInfos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentID" Type="Int32" />
+    <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Departments" Relationship="Self.FK_UserInfos_Departments" FromRole="UserInfos" ToRole="Departments" />
+    <NavigationProperty Name="R_User_Roles" Relationship="Self.FK_R_User_Roles_UserInfos" FromRole="UserInfos" ToRole="R_User_Roles" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_Student_UserInfos" FromRole="UserInfos" ToRole="Student" />
+    <NavigationProperty Name="Teacher" Relationship="Self.FK_Teacher_UserInfos" FromRole="UserInfos" ToRole="Teacher" />
+  </EntityType>
+  <Association Name="FK__Answer__PaperID__5812160E">
+    <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper">
+        <PropertyRef Name="PaperID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Answer__StuID__59063A47">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StuID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="StuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Answer__TeacherI__59FA5E80">
+    <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Detail__AnswerID__5AEE82B9">
+    <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+    <End Role="Detail" Type="Self.Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Answer">
+        <PropertyRef Name="AnswerID" />
+      </Principal>
+      <Dependent Role="Detail">
+        <PropertyRef Name="AnswerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserInfos_Departments">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserInfos">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Detail__TopicID__5BE2A6F2">
+    <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+    <End Role="Detail" Type="Self.Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Topic">
+        <PropertyRef Name="TopicID" />
+      </Principal>
+      <Dependent Role="Detail">
+        <PropertyRef Name="TopicID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_Role_Menus_Menus">
+    <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+    <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_Role_Menus">
+        <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Topic__PaperID__5CD6CB2B">
+    <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+    <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper">
+        <PropertyRef Name="PaperID" />
+      </Principal>
+      <Dependent Role="Topic">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_Role_Menus_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_Role_Menus">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_User_Roles_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_User_Roles">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_User_Roles_UserInfos">
+    <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+    <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_User_Roles">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_UserInfos">
+    <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Teacher_UserInfos">
+    <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+    <End Role="Teacher" Type="Self.Teacher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Teacher">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AccountDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Answer" EntityType="Self.Answer" />
+    <EntitySet Name="Departments" EntityType="Self.Departments" />
+    <EntitySet Name="Detail" EntityType="Self.Detail" />
+    <EntitySet Name="Menus" EntityType="Self.Menus" />
+    <EntitySet Name="Paper" EntityType="Self.Paper" />
+    <EntitySet Name="R_Role_Menus" EntityType="Self.R_Role_Menus" />
+    <EntitySet Name="R_User_Roles" EntityType="Self.R_User_Roles" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="Student" EntityType="Self.Student" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+    <EntitySet Name="Topic" EntityType="Self.Topic" />
+    <EntitySet Name="UserInfos" EntityType="Self.UserInfos" />
+    <AssociationSet Name="FK__Answer__PaperID__5812160E" Association="Self.FK__Answer__PaperID__5812160E">
+      <End Role="Paper" EntitySet="Paper" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Answer__StuID__59063A47" Association="Self.FK__Answer__StuID__59063A47">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Answer__TeacherI__59FA5E80" Association="Self.FK__Answer__TeacherI__59FA5E80">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Detail__AnswerID__5AEE82B9" Association="Self.FK__Detail__AnswerID__5AEE82B9">
+      <End Role="Answer" EntitySet="Answer" />
+      <End Role="Detail" EntitySet="Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserInfos_Departments" Association="Self.FK_UserInfos_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="UserInfos" EntitySet="UserInfos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Detail__TopicID__5BE2A6F2" Association="Self.FK__Detail__TopicID__5BE2A6F2">
+      <End Role="Topic" EntitySet="Topic" />
+      <End Role="Detail" EntitySet="Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_Role_Menus_Menus" Association="Self.FK_R_Role_Menus_Menus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Topic__PaperID__5CD6CB2B" Association="Self.FK__Topic__PaperID__5CD6CB2B">
+      <End Role="Paper" EntitySet="Paper" />
+      <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_Role_Menus_Roles" Association="Self.FK_R_Role_Menus_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_User_Roles_Roles" Association="Self.FK_R_User_Roles_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_User_Roles_UserInfos" Association="Self.FK_R_User_Roles_UserInfos">
+      <End Role="UserInfos" EntitySet="UserInfos" />
+      <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_UserInfos" Association="Self.FK_Student_UserInfos">
+      <End Role="UserInfos" EntitySet="UserInfos" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Teacher_UserInfos" Association="Self.FK_Teacher_UserInfos">
+      <End Role="UserInfos" EntitySet="UserInfos" />
+      <End Role="Teacher" EntitySet="Teacher" />
+    </AssociationSet>
+    <EntitySet Name="v_user_menus" EntityType="AccountDBModel.v_user_menus" />
+    <EntitySet Name="v_User_Role_Menu" EntityType="AccountDBModel.v_User_Role_Menu" />
+  </EntityContainer>
+  <EntityType Name="v_user_menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pid" Type="Int32" />
+    <Property Name="rName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="v_User_Role_Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pid" Type="Int32" />
+  </EntityType>
+</Schema>

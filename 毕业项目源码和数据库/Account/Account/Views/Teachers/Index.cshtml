@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+@using Account.Models;
+@model List<Teacher>
+<h2>教师列表</h2>
+
+<p>
+    <a href="/Teachers/Create">添加新老师</a>
+    <a href="#" id="Alldelete">批量删除</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <input type="checkbox" id="AllChecked" />全选
+        </th>
+        <th>
+            姓名
+        </th>
+        <th>
+            登录名
+        </th>
+        <th>
+            密码
+        </th>
+        <th>
+            电话
+        </th>
+        <th>
+            Email
+        </th>
+        <th>操作</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        <input name="TeacherID" type="checkbox" value="@item.TeacherID" /> 
+    </td>
+    <td>
+        @item.TeacherName
+    </td>
+    <td>
+        @item.TeacherLoginName
+    </td>
+    <td>
+        @item.TeacherLoginPwd
+    </td>
+    <td>
+        @item.TeacherPhone
+    </td>
+    <td>
+        @item.TeacherEmail
+    </td>
+    <td>
+        <a href="/Teachers/Edit/@item.TeacherID">编辑</a> |
+        <a href="/Teachers/Details/@item.TeacherID">详情</a> |
+        <a href="/Teachers/Delete/@item.TeacherID">删除</a>
+    </td>
+</tr>
+    }
+
+
+
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            //点击全选按钮时触发
+            $("#AllChecked").click(function () {
+                //设置除全选按钮之外的复选框，
+                //input: checkbox找到所有input标签类型为复选框的
+                //gt(0)   >0   除了全选
+                //prop设置属性和值 
+                $("input:checkbox:gt(0)").prop("checked", $(this).prop("checked"));
+            })
+
+            //全选和全不选
+            //$("#AllChecked").click(function () {
+            //    if ($(this).is(":checked")) {
+            //        $("[name='TeacherID']").each(function () {
+            //            $(this).prop("checked", true);
+            //        })
+            //    } else {
+            //        $("[name='TeacherID']").each(function () {
+            //            $(this).prop("checked", false);
+            //        })
+            //    }
+            //})
+
+            //反向选择
+            $("[name='TeacherID']").click(function () {
+                //获取已选中的多个复选框的个数
+                var checkedlength = $("[name='TeacherID']:checked").length;
+                //获取所有复选框的个数
+                var Alllength = $("[name='TeacherID']").length;
+                if (checkedlength == Alllength) {
+                    //相同，全选选中
+                     $("#AllChecked").prop("checked", true);
+                } else {
+                    //全选不选中
+                     $("#AllChecked").prop("checked", false);
+                }
+            })
+
+            //点击批量删除时触发
+            $("#Alldelete").click(function () {
+                //获得选中的复选框
+                var checked = $("[name='TeacherID']:checked");
+                //判断是否有选中的复选框
+                if (checked.length==0) {
+                    alert("请选择需要删除的记录！");
+                    return;
+                }
+                var TeacherID = "";  //1,3,4,25,
+                //将选中的复选框循环遍历 获得value值 并拼接“，”，存到字符串TeacherID中
+                checked.each(function () {
+                   TeacherID += $(this).val()+",";
+                })
+
+                //通过ajax传送到控制器进行删除
+                $.ajax({
+                    type:"POST",
+                    url:"/Teachers/AllDelete",
+                    data: {
+                        "teachersID": TeacherID
+                    },
+                    success: function (value) {
+                        alert(value);
+                        if (value == 1) {
+                            alert("删除成功！");
+                        } else {
+                            alert("删除失败！");
+                        }
+                        location.reload();//刷新
+                    },
+                    error: function (xhr,erro,throws) {
+                        alert("系统出现异常，非常抱歉！");
+                    }
+
+                })
+
+            })
+           
+        })
+    </script>
+    }

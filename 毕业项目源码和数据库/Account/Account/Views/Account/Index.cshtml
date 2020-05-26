@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model List<Account.Models.Roles>
+<h2>授权查看</h2>
+<table class="table table-bordered table-hover" >
+    <thead>
+        <tr >
+            <th width="20%">角色</th>
+            <th>授权菜单</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        @foreach (var rrm in item.R_Role_Menus)
+                        {
+                            var collapse = "menu";
+                            
+                        <div id="accordion">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#@collapse@rrm.MenuID">
+                                @if (rrm.Menus.Pid == null)
+                                {
+                                <p>@rrm.Menus.Name</p>
+                                }
+                            </a>
+                            <div id="@collapse@rrm.MenuID" class="collapse in" style="text-indent:2em;">
+                                @foreach (var m in item.R_Role_Menus.Where(p => p.Menus.Pid == rrm.Menus.ID))
+                                {
+
+                                <p>@m.Menus.Name </p>
+
+                                }
+                            </div>
+
+                        </div>
+                            
+
+                        }
+                    </td>
+                </tr>
+            
+
+        }
+
+    </tbody>
+</table>

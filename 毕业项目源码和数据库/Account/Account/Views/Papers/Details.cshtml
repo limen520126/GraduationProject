@@ -1,0 +1,84 @@
+﻿@model Account.Models.Paper
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+
+<h2>查看试卷信息</h2>
+
+<div>
+    <hr />
+    <fieldset>
+        <legend>试卷信息</legend>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PaperName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PaperName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PaperExplain)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PaperExplain)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PaperTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PaperTime)
+            </dd>
+
+        </dl>
+    </fieldset>
+
+    <fieldset>
+        <legend>试卷内容</legend>
+        <ul style="list-style:inside;">
+            @foreach (var topic in Model.Topic.OrderBy(p=>p.TopicSort))
+            {
+                <li style="padding:20px;">
+                    <span style="font-weight:bold"> @topic.TopicExplain</span> ( @topic.TopicScore 分)
+                    <a href="/Topics1/Delete/@topic.TopicID">删除考题</a> -
+                    <a href="/Topics1/Edit/@topic.TopicID">修改考题</a>
+
+                    <ul style="padding-left:30px;">
+                        @if (topic.TopicType == 1)
+                        {
+                            <li>A.@topic.TopicA </li>
+                            <li>B.@topic.TopicB</li>
+                            <li>C.@topic.TopicC</li>
+                            <li>D.@topic.TopicD</li>
+                        }
+                        else if (topic.TopicType == 2)
+                        {
+                            <li>该题是判断题</li>
+                        }
+                        else
+                        {
+                            <li>该题是问答题</li>
+                        }
+
+                    </ul>
+                </li>
+            }
+
+
+        </ul>
+    </fieldset>
+
+</div>
+
+
+<p>
+    @Html.ActionLink("添加考题", "Create", "Topics1", new { id = Model.PaperID }, null) |
+    @Html.ActionLink("修改试卷信息", "Edit", new { id = Model.PaperID }) |
+    @Html.ActionLink("返回试卷列表", "Index")
+</p>

@@ -1,0 +1,83 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>在线考试 - @ViewBag.Title </title>
+
+    <!--导入项目所需的样式文件-->
+    @Styles.Render("~/Content/Exam/css")
+    @using Account.Models;
+    @{ 
+        Teacher tea = Session["Teacher"] as Teacher;
+        Student stu = Session["Student"] as Student;
+    }
+</head>
+<body>
+    <div id="all">
+        <!--页眉-->
+        <!--未登录-->
+        <div id="header">
+            <div id="logo"><span id="logotxt">在线全自动考试</span></div>
+            <div id="loginmsg">
+
+                @if (tea != null)
+                {
+                    <span> @tea.TeacherName 老师您好, 欢迎光临在线全自动考试系统</span>
+                    <a href="/ExamLogin/Logout">退出系统</a>
+                }
+                else if (stu != null)
+                {
+                    <span> @stu.StuName 同学您好, 欢迎光临在线全自动考试系统</span>
+                    <a href="/ExamLogin/Logout">退出系统</a>
+                }
+                else
+                {
+                    <a href="/ExamLogin/TeacherLogin">老师登录</a>
+                    <a href="/ExamLogin/StudentLogin">学生登录</a>
+
+                    
+                }
+
+
+
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="/Home/Index">首页</a></li>
+                @if (tea != null)
+                {
+                    <li><a href="/Teachers/Index">教师管理</a></li>
+                    <li><a href="/Student/Index">学生管理</a></li>
+                    <li><a href="/Papers/Index">试卷管理</a></li>
+                    <li><a href="/Answers/TeAnswer">审卷</a></li>
+                }
+                @if (stu != null)
+                {
+                    <li><a href="/Student/Details/@stu.StuID">我的资料</a></li>
+                    <li><a href="/Papers/IndexStu">在线考试</a></li>
+                    <li><a href="/Answers/MyAnswer">我的考试</a></li>
+                }
+
+                <li><a href="/Home/About">关于</a></li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+        <div id="content">
+            <!--页面内容部分-->
+            @RenderBody()
+
+            <!--页脚-->
+            <div id="footer">
+                <hr style="margin:20px 0px;" /> 在线全自动化考试   版权所有 - 2018 
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

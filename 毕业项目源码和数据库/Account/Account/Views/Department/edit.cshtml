@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "edit";
+    
+}
+
+@using Account.Models;
+@model Departments
+<ul class="breadcrumb">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">部门管理</a></li>
+    <li class="active">部门修改</li>
+</ul>
+@Url.Action()
+<form method="post" class="form-horizontal" >
+    <div class="form-group">
+        <label for="Name">菜单名称：</label>
+        <input type="text" name="Name" id="Name" class="form-control" value="@Model.Name" />
+    </div>
+    <div class="form-group">
+        <label for="Name">备注：</label>
+        <input type="text" name="Remark" id="Remark" class="form-control" value="@Model.Remark" />
+        @*@Html.TextBox("Remark", null, new { @class = "form-control" })*@
+    </div>
+    <div class="form-group">
+        <a href="javascript:history.go(-1)" class="btn btn-info">返回</a>
+        <input type="submit" value="保存" class="btn btn-primary" />
+    </div>
+</form>
+

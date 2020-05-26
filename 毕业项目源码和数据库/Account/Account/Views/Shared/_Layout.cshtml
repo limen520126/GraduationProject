@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @using Account.Models;
+    @{
+        UserInfos user = Session["user"] as UserInfos;
+        HashSet<Menus> list = Session["menusList"] as HashSet<Menus>;
+    }
+
+    <style>
+        
+
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("权限管理系统", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <ul class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("首页", "Index", "Home")</li>
+
+                    @if (user != null)
+                    {
+                        foreach (var menu in list)
+                        {
+                <li class="dropdown">
+                    @if (menu.Pid == null)
+                    {
+                        <a href="@menu.Url"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@menu.Name</a>
+                     }
+                        @if (list.Where(a => a.Pid == menu.ID).Count()>0)
+                        {
+                <ul class="dropdown-menu">
+                    @foreach (var item in list.Where(a => a.Pid == menu.ID))
+                    {
+                        <li><a href="@item.Url">@item.Name</a></li>
+                    }
+
+
+
+                </ul>
+                             
+                        }
+                    </li>
+                        
+                        
+
+                    }
+
+
+                    }
+
+
+                </ul>
+                <div class=" media-middle navbar-right">
+
+                    @if (user != null)
+                    {
+                        <span style="color:white">欢迎：@user.Account </span>
+                        <a href="/Home/Exit" class="btn  btn-success">注销</a>
+                    }
+                    else
+                    {
+                        <a href="/Home/Login" class="btn btn-primary">登录</a>
+                    }
+
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container">
+       
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+            </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(function() {
+           
+        });
+    </script>
+</body>
+</html>

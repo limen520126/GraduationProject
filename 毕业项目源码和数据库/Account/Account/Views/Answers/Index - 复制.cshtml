@@ -1,0 +1,200 @@
+﻿
+@model Account.Models.Answer
+@{
+    ViewBag.Title = "在线全自动考试";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+    int num = 1;
+}
+
+    <style>
+        .NotAnswer {
+            color: white;
+            background-color: gray;
+        }
+
+        .Answered {
+            color: white;
+            background-color: blue;
+        }
+    </style>
+
+
+
+<h2>在线考试</h2>
+<div class="row">
+    <div class="col-md-8" style="border:0px dashed red">
+
+        @foreach (var item in Model.Paper.Topic)
+        {
+            var No = "subject" + num.ToString();
+            <div class="test-title-details-list" id="@No">
+                <!--题目-->
+                <div class="test-title-details-list-tit">
+                    <h4 class="bigColor active">@num 、@item.TopicExplain</h4>
+                    <!--得分-->
+                    <div class="test-classRoom-title-score fontColor">
+                        <i data-exam="0" class="iconfont icon-cha status erro"></i>
+                    </div>
+                    <p class="smallColor">(<span class="smallColor"> @(@item.TopicType == 1 ? "单选题" : "多选题")  </span>、<span class="smallColor">@item.TopicScore 分</span>)</p>
+                </div>
+                <!--选项-->
+                <div class="test-title-details-list-con layui-form">
+                    <ol class="layui-form-item" type="A">
+                        @{
+                            <!--视图显示和数据库保持一致-->
+                            var IsChecked = item.Detail.FirstOrDefault().DetailAnswer;
+                        }
+                        @if (@item.TopicType == 0)
+                        {
+                            <li class="list-group-item">
+                                A：@Html.CheckBox(@item.TopicID.ToString(), @IsChecked.IndexOf("A") > -1 ? true : false, new { @class = "form-check-input", value = "A" }) @item.TopicA
+                            </li>
+                            <li class="list-group-item">
+                                B：@Html.CheckBox(@item.TopicID.ToString(), @IsChecked.IndexOf("B") > -1 ? true : false, new { @class = "form-check-input", value = "B" }) @item.TopicB
+                            </li>
+                            <li class="list-group-item">
+                                C：@Html.CheckBox(@item.TopicID.ToString(), @IsChecked.IndexOf("C") > -1 ? true : false, new { @class = "form-check-input", value = "C" }) @item.TopicC
+                            </li>
+                            <li class="list-group-item">
+                                D：@Html.CheckBox(@item.TopicID.ToString(), @IsChecked.IndexOf("D") > -1 ? true : false, new { @class = "form-check-input", value = "D" }) @item.TopicD
+                            </li>
+                        }
+                        else if (@item.TopicType == 1)
+                        {
+                            <li class="list-group-item">
+                                A：@Html.RadioButton(@item.TopicID.ToString(), "A", @IsChecked == "A" ? true : false, new { @class = "form-check-input" }) @item.TopicA
+                            </li>
+                            <li class="list-group-item">
+                                B：@Html.RadioButton(@item.TopicID.ToString(), "B", @IsChecked == "B" ? true : false, new { @class = "form-check-input" }) @item.TopicB
+                            </li>
+                            <li class="list-group-item">
+                                C：@Html.RadioButton(@item.TopicID.ToString(), "C", @IsChecked == "C" ? true : false, new { @class = "form-check-input" }) @item.TopicC
+                            </li>
+                            <li class="list-group-item">
+                                D：@Html.RadioButton(@item.TopicID.ToString(), "D", @IsChecked == "D" ? true : false, new { @class = "form-check-input" }) @item.TopicD
+                            </li>
+                        }
+                        else if (@item.TopicType == 2)
+                        {
+                            <li class="list-group-item">
+                                @Html.RadioButton(@item.TopicID.ToString(), "1", @IsChecked == "1" ? true : false, new { @class = "form-check-input" }) 正确
+                            </li>
+                            <li class="list-group-item">
+                                @Html.RadioButton(@item.TopicID.ToString(), "2", @IsChecked == "2" ? true : false, new { @class = "form-check-input" }) 错误
+                            </li>
+                        }
+                        else if (@item.TopicType == 3)
+                        {
+                            @Html.TextArea(@item.TopicID.ToString(), @IsChecked, 5, 90, null)
+                        }
+                    </ol>
+                </div>
+            </div>
+            num = num + 1;
+        }
+
+    </div>
+    <div class="col-md-4 " style="box-shadow:0px 0px 5px #333333;position:fixed;right:180px;top:150px;width:300px;">
+        @using (Html.BeginForm("Index", "Paper", FormMethod.Post, new { id = "submitForm" }))
+        {
+            @Html.Hidden("AnswerID")
+            <h4>题目搜索</h4>
+            <div class="form-group" style=" overflow-y: auto;max-height:265px;">
+                @for (int i = 1; i <= Model.Paper.Topic.Count; i++)
+                {
+                    <!--通过编号定位答题题目-->
+                    var No = "subject" + i.ToString();
+                    <a href="#@No">
+                        <p class="NotAnswer" style="float: left;line-height:30px;width:30px;height:30px;border-radius:5px;margin:4px;text-align:center;font-size:12px;">
+                            @i
+                        </p>
+                    </a>
+                }
+            </div>
+            <div class="form-group col-md-offset-5">
+                <input type="submit" name="submit" value="交卷" class="btn btn-danger" />
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+    <script>
+        //交卷
+        $("#submitForm").submit(function () {
+            var gnl = confirm("确定要提交?");
+            if (gnl == true) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        //给单复选框题目搜索添加灰、蓝
+        $("li input").each(function () {
+            //console.log($(this).is(':checked'));
+            if ($(this).is(':checked')) {
+                var $changeP = $(this).parent().parent().parent().parent().attr("id");
+                $("a[href='#" + $changeP + "']").children().removeClass("NotAnswer");
+                $("a[href='#" + $changeP + "']").children().addClass("Answered");
+            }
+        });
+        //给填空题题目搜索添加灰、蓝
+        $("textarea").each(function () {
+            //console.log($(this).is(':checked'));
+            if ($(this).val()!="") {
+                var $changeP = $(this).parent().parent().parent().attr("id");
+                $("a[href='#" + $changeP + "']").children().removeClass("NotAnswer");
+                $("a[href='#" + $changeP + "']").children().addClass("Answered");
+            }
+        });
+        
+        //处理复选框[type='checkbox']
+        $("input").change(function () {
+            //获取当前复选框选中选中的项
+            var $str = "input[name='" + $(this).attr("name") + "']:checked";
+            var $result = [];
+            $($str).each(function () {//遍历取值
+                $result.push($(this).val());
+            });
+            //console.log($result.length);
+            var $changeP = $(this).parent().parent().parent().parent().attr("id");
+            if ($result.length > 0) {
+                $("a[href='#" + $changeP + "']").children().removeClass("NotAnswer");
+                $("a[href='#" + $changeP + "']").children().addClass("Answered");
+            }
+            else {
+                $("a[href='#" + $changeP + "']").children().removeClass("Answered");
+                $("a[href='#" + $changeP + "']").children().addClass("NotAnswer");
+            }
+            console.log($result.join(","))
+            $.ajax({
+                type: "post",
+                url: "/Answers/Index",
+                data: { AnswerID: $("#AnswerID").val(), TopicID: $(this).attr("name"), DetailAnswer: $result.join(",") },
+            });
+        });
+        //处理输入框
+        $("textarea").change(function () {
+            var $changeP = $(this).parent().parent().parent().attr("id");
+            //console.log($changeP);
+            if ($(this).val() != "") {
+                //console.log("if" +$(this).val());
+                $("a[href='#" + $changeP + "']").children().removeClass("NotAnswer");
+                $("a[href='#" + $changeP + "']").children().addClass("Answered");
+            }
+            else {
+                //console.log("else"+$(this).val());
+                $("a[href='#" + $changeP + "']").children().removeClass("Answered");
+                $("a[href='#" + $changeP + "']").children().addClass("NotAnswer");
+            }
+            $.ajax({
+                type: "post",
+                url: "/Answers/Index",
+                data: { AnswerID: $("#AnswerID").val(), TopicID: $(this).attr("name"), DetailAnswer: $(this).val() },
+            });
+        });
+
+    </script>
+}
+
+

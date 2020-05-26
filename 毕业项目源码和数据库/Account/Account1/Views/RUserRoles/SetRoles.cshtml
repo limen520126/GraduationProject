@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "SetRoles";
+}
+@using Account1.Models;
+@{
+    UserInfos user = ViewBag.User;
+    List<R_User_Roles> rURList = ViewBag.rURList;
+    List<Account1.Models.Roles> rList = ViewBag.rList;
+}
+<ul class="breadcrumb">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">用户管理</a></li>
+    <li class="active">角色设置</li>
+</ul>
+
+<h3>正在为 @user.Name 设置角色</h3>
+<form action="" method="post" >
+    @foreach (var role in rList)
+    {
+        var check = false;
+        foreach (var rur in rURList)
+        {
+            if (rur.RoleID == role.ID)
+            {
+                check = true;
+                break;
+            }
+
+        }
+        <input type="checkbox" value="@role.ID" name="roles" id="roles" checked="@check" />
+        @role.Name
+        <br />
+    }
+    
+   
+    <input type="hidden" value="@user.ID" name="UserID"/>
+    <input type="submit" value="提交" class="btn btn-primary" />
+</form>

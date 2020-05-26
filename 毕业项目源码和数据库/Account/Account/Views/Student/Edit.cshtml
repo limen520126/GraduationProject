@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+    Student stu = Model;
+}
+@using Account.Models;
+
+<h2>Edit</h2>
+<form action="/Student/Edit" method="post">
+    <input type="hidden" value="@stu.StuID"/>
+    <label>姓名：</label>
+    <input type="text" name="StuName" id="StuName" value="@stu.StuName" /><br />
+    <label>账号：</label>
+    <input type="text" name="StuLoginName" id="StuLoginName" value="@stu.StuLoginName" /><br />
+    <label>密码：</label>
+    @Html.Password("StuLoginPwd",stu.StuLoginPwd)
+    @*@Html.TextBox("StuLoginPwd",null,new { type="password"})*@
+    <input type="password" name="StuLoginPwd" id="StuLoginPwd" value="@stu.StuLoginPwd" /><br />
+    <label>性别：</label>
+    <input type="text" name="StuSex" id="StuSex" value="" /><br />
+    <label> 电话：</label>
+    <input type="text" name="StuPhone" id="StuPhone" value="" /><br />
+    <label>邮箱：</label>
+    <input type="text" name="StuEmail" id="StuEmail" value="" /><br />
+    <label>年级：</label>
+    <input type="text" name="StuGrade" id="StuGrade" value="" /><br />
+    <input type="submit" value="保存"/>
+</form>
+

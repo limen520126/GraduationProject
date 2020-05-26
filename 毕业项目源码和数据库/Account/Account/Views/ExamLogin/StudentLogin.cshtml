@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "StudentLogin";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+@model Account.Models.Student
+<h2>学生登录</h2>
+<form action="/ExamLogin/StudentLogin" method="post">
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            
+                @Html.LabelFor(p => p.StuLoginName,new { @class="control-label col-md-2"})
+            
+            <div class="col-md-10">
+                @Html.TextBoxFor(p => p.StuLoginName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(p => p.StuLoginName)
+
+            </div>
+        </div>
+        <div class="form-group">
+           
+            @Html.LabelFor(p => p.StuLoginPwd,new { @class="control-label col-md-2"})
+            
+            <div class="col-md-10">
+                @Html.PasswordFor(p => p.StuLoginPwd, new { @class = "form-control" })
+                @Html.ValidationMessageFor(p => p.StuLoginPwd)
+            </div>
+        </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value=" 登录 " class="btn btn-default" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="text-danger">
+                    @Html.ValidationMessage("flag")
+                </div>
+            </div>
+        </div>
+</form>
+

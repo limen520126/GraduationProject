@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "SetMenu";
+}
+
+@using Account.Models;
+@{
+     Account.Models.Roles role = ViewBag.Role;
+    List<Menus> menus = ViewBag.Menus;
+    List<R_Role_Menus> selectedMenu = ViewBag.SelectedMenu;
+}
+    <nav aria-label="breadCrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/home/index">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/home/index">角色管理</a>
+            </li>
+            <li class="active">
+                设置菜单
+            </li>
+        </ol>
+    </nav>
+<h2>
+    正在为 @role.Name    设置菜单
+</h2>
+<form method="post">
+    <input type="hidden" value="@role.ID" name="roleID" />
+
+    @foreach (var menu in menus)
+    {
+
+        var check = false;
+        foreach (var item in selectedMenu)
+        {
+           if (item.MenuID == menu.ID)
+            {
+                check = true;
+                break;
+            }
+        }
+
+        <input type="checkbox" value="@menu.ID" class="form-check-input" name="menuids" checked="@check"/>
+        <label class="form-check-label">@menu.Name</label><br/>
+
+    }
+    <input type="submit" value="保存" class="btn btn-primary" />
+
+
+
+</form>

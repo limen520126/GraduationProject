@@ -1,0 +1,204 @@
+﻿
+@model Account.Models.Answer
+@{
+    ViewBag.Title = "在线全自动考试";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+   
+
+}
+@using Account.Models;
+<style>
+    .showFlag {
+        line-height:40px;
+    }
+    .NotAnswerFlag {
+        border:1px solid #000000;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+    }
+
+    .AnsweredFlag {
+        color: white;
+        background-color: #139ee5;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+    }
+
+    .flex {
+        position: fixed;
+        border: 1px solid gray;
+        right: 20%;
+        top: 50%;
+        opacity: 0.8;
+        width: 210px;
+        border-radius: 5px;
+        background-color: #d7d6d6;
+    }
+     .flex ul{
+         list-style:none;
+         display:flex;
+         flex-wrap:wrap;
+         justify-content: flex-start;
+         
+     }
+        .flex ul li{
+            padding: 0px;
+        }
+            .flex ul li a {
+                width: 35px;
+                height: 35px;
+                border-radius: 3px;
+                border: 1px solid #000000;
+                margin: 2px;
+                text-align: center;
+                line-height: 40px;
+                display: block;
+            }
+    .NotAnswer {
+        background-color: #ffffff;
+        border: 1px solid #000000;
+    }
+
+    .Answered {
+        color: white;
+        background-color: #139ee5;
+    }
+    .submit {
+       
+        margin:5px auto;
+        border-radius: 5px;
+        text-align: center;
+        display: block;
+        width: 50px;
+        height:30px;
+        line-height:30px;
+        padding: 3px 5px;
+        background-color: #f53917;
+        color: white;
+    }
+    .submit:hover{
+        background-color:red;
+        color:white;
+    }
+</style>
+@{ 
+    Paper paper= ViewBag.StuPaper;
+    Student stu =  Session["Student"] as Student;
+    string radioName = "TopicRadio";
+    string flag = "flag";
+     int num = 1;
+    int icon = 1;
+}
+
+
+<h2>在线考试</h2>
+<table>
+    <tr>
+        <td>
+            <h4>试卷描述</h4><hr />
+            试卷名称: @paper.PaperName <br />
+            试卷介绍: @paper.PaperExplain<br />
+            试卷时长: @paper.PaperTime (分钟)<br />
+        </td>
+        <td>
+            <h4>考生信息</h4><hr />
+            学生姓名: @stu.StuName <br />
+            学生班级: @stu.StuGrade<br />
+            
+        </td>
+    </tr>
+</table>
+
+<div class="row">
+    <div class="col-md-12" style="border: 0px dashed red">
+        <fieldset>
+            <legend>试卷内容</legend>
+            <ul style="list-style:inside;">
+                @foreach (var topic in paper.Topic)
+                {
+                    
+                    <li style="padding:20px;">
+                        <a name="@flag@topic.TopicID">第 @icon 题</a>
+                        <span style="font-weight:bold"> @topic.TopicExplain</span> ( @topic.TopicScore 分)
+                        <input type="hidden" value="@topic.TopicID" />
+                        <ul style="padding-left:30px;list-style:none">
+                            @if (topic.TopicType == 1)
+                            {
+                                <li><input type="radio" name="@radioName@topic.TopicID" value="A" nameFlag="tag"/>A.@topic.TopicA </li>
+                                <li><input type="radio" name="@radioName@topic.TopicID" value="B" nameFlag="tag"/>B.@topic.TopicB</li>
+                                <li><input type="radio" name="@radioName@topic.TopicID" value="C" nameFlag="tag"/>C.@topic.TopicC</li>
+                                <li><input type="radio" name="@radioName@topic.TopicID" value="D" nameFlag="tag"/>D.@topic.TopicD</li>
+                            }
+                            else if (topic.TopicType == 2)
+                            {
+                                <li><input type="radio" name="@radioName@topic.TopicID" value="@topic.TopicA" nameFlag="tag"/>A.@topic.TopicA </li>
+                                <li><input type="radio" name="@radioName@topic.TopicID" value="@topic.TopicB" nameFlag="tag"/>B.@topic.TopicB</li>
+                            }
+                            else
+                            {
+                                <li><textarea name="@radioName@topic.TopicID" rows="5" cols="100" nameFlag="tag">@topic.TopicA </textarea> </li>
+                            }
+
+                        </ul>
+                    </li>
+                    icon++;
+                }
+
+
+
+            </ul>
+
+        </fieldset>
+
+        <div class="flex">
+            <div class="showFlag">
+                <span>已作答<span class="AnsweredFlag"></span></span><span>未作答<span class="NotAnswerFlag"></span></span>
+            </div>
+            <hr />
+            <ul>
+                @foreach (var topic in paper.Topic)
+                {
+                    <li ><a href="#@flag@topic.TopicID" id="@topic.TopicID">@num</a></li>
+                    num++;
+                }
+
+            </ul>
+            <hr />
+            <div>
+                <a href="/Answers/SubmitPaper?AnswerID=@Model.AnswerID"  class="submit" onclick="return confirm('确定交卷吗？')">交卷</a><br />
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        $("[nameFlag=tag]").change(function () {
+            //获得选中项的答案
+            var radioValue = $(this).val();
+            //获得选中项的name
+            var NameValue = $(this).attr("name");
+            //并提取name中的题目ID
+            var TopicID = NameValue.replace(/[^0-9]/ig, "");
+
+            //修改浮动窗体对应题号的颜色
+            $("#" + TopicID).addClass("Answered");
+            //提交答案
+             $.ajax({
+                type: "post",
+                url: "/Answers/Index",
+                data: {
+                    AnswerID:@Model.AnswerID ,
+                    TopicID: TopicID,
+                    DetailAnswer:radioValue
+                }
+            });
+           
+        })
+       
+    </script>
+}
+
+

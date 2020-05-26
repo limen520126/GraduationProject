@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@using Account.Models;
+@model List<Departments>
+<nav aria-label="breadCrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/home/index">首页</a>
+        </li>
+        <li class="breadcrumb-item active">
+            部门管理
+        </li>
+    </ol>
+</nav>
+
+
+<div class="d-flex justify-content-between">
+    <div class="col-lg-8">
+        <form class="form-inline" action="/department/add" method="post">
+            <div class="form-group">
+                <input type="text" id="Name" name="Name" placeholder="请输入部门名称" class="form-control" />
+                <input type="text" id="Remark" name="Remark" placeholder="请输入备注" class="form-control" />
+            </div>
+            <input type="submit" class="btn btn-primary" value="新增" />
+        </form>
+
+    </div>
+    <div class="col-lg-4">
+        <form class="form-inline" action="/department/index" method="post">
+            <div class="form-group">
+                <label for="txtCondName">部门名称：</label>
+                <input type="text" id="Name" name="Name" value="@ViewBag.Name" class="form-control" />
+            </div>
+            <input type="submit" class="btn btn-primary" id="btnSearch" value="搜索" />
+        </form>
+    </div>
+</div>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>备注</th>
+            <th>该部门人员</th>
+            <th>该部门人数</th>
+            <th>修改</th>
+            <th>删除</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.Name</td>
+                <td>@item.Remark</td>
+                <td>
+                    @foreach (var i in item.UserInfos)
+                    {
+                        if (i.Student.Count > 0)
+                        {
+                            foreach (var stu in i.Student)
+                            {
+                                @stu.StuName
+                            }
+                        }
+                        else if (i.Teacher.Count > 0)
+                        {
+                            foreach (var tea in i.Teacher)
+                            {
+                                @tea.TeacherName
+                            }
+                        }
+                        else
+                        {
+                            @i.Account
+                        }
+                        <br />
+                    }
+                </td>
+                <td>@item.UserInfos.Count()</td>
+                <td><a href="/department/Edit/@item.ID" class="btn btn-primary">修改</a></td>
+                <td><a href="/department/Delete/@item.ID" class="btn btn-danger">删除</a></td>
+            </tr>
+        }
+
+
+
+    </tbody>
+
+</table>

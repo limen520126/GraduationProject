@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+@model Account.Models.Student
+<h2>添加学生信息</h2>
+@using (Html.BeginForm("Add","Student",FormMethod.Post))
+{
+    @Html.LabelFor(a => a.StuName)          //显示的label标签
+    @Html.TextBoxFor(a => a.StuName)        //显示的表单元素
+    @Html.ValidationMessageFor(a => a.StuName)  //验证信息显示
+    <br />
+
+    @Html.LabelFor(a => a.StuLoginName)
+    @Html.TextBoxFor(a => a.StuLoginName)
+    @Html.ValidationMessageFor(a => a.StuLoginName)
+    @Html.ValidationMessage("flag")
+    <br />
+    @Html.LabelFor(a => a.StuLoginPwd)
+    @Html.EditorFor(a=>a.StuLoginPwd)
+    @Html.ValidationMessageFor(a => a.StuLoginPwd)
+    <br />
+    @Html.LabelFor(a => a.StuSex)
+    @Html.RadioButtonFor(a => a.StuSex, "true", true) @:男    @*//单选按钮*@
+    @Html.RadioButtonFor(a => a.StuSex, "false") @:女
+    @Html.ValidationMessageFor(a => a.StuSex)
+    <br />
+    @Html.LabelFor(a => a.StuPhone)
+    @Html.EditorFor(a => a.StuPhone)
+    @Html.ValidationMessageFor(a => a.StuPhone)
+    <br />
+    @Html.LabelFor(a => a.StuEmail)
+    @Html.EditorFor(a => a.StuEmail)
+    @Html.ValidationMessageFor(a => a.StuEmail)
+    <br />
+    @Html.LabelFor(a => a.StuGrade)
+    @Html.EditorFor(a => a.StuGrade)
+    @Html.ValidationMessageFor(a => a.StuGrade)
+    <br />
+    <input type="submit" value="保存"/>
+}
+

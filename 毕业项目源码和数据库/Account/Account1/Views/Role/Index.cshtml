@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model List<Account1.Models.Roles>
+<h2>角色列表</h2>
+<table class="table table-bordered table-hover table-condensed">
+    <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th>备注</th>
+        <th>拥有的用户</th>
+        <th>操作的菜单</th>
+    </tr>
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.ID</td>
+            <td>@role.Name</td>
+            <td>@role.Remark</td>
+            <td>
+                @foreach (var r_user_roles in role.R_User_Roles)
+                {
+                    @r_user_roles.UserInfos.Name <br />
+                }
+            </td>
+            <td>
+                @foreach (var r_role_renus in role.R_Role_Menus)
+                {
+                    @r_role_renus.Menus.Name <br />
+                }
+            </td>
+        </tr>
+    }
+</table>

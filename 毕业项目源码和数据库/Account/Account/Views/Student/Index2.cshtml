@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+
+@using Account.Models;
+<h2>学生信息</h2>
+<a href="">添加</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>账号</th>
+            <th>密码</th>
+            <th>性别</th>
+            <th>电话</th>
+            <th>邮箱</th>
+            <th>年级</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in TempData["sList"] as List<Student>)
+        {
+            <tr>
+                <td>@item.StuName</td>
+                <td>@item.StuLoginName</td>
+                <td>@item.StuLoginPwd</td>
+                <td>@item.StuSex</td>
+                <td>@item.StuPhone</td>
+                <td>@item.StuEmail</td>
+                <td>@item.StuGrade</td>
+                <td><a href="">修改</a></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

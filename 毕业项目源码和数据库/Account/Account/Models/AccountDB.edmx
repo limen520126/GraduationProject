@@ -1,0 +1,1029 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AccountDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="AnswerID" />
+          </Key>
+          <Property Name="AnswerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="StuID" Type="int" Nullable="false" />
+          <Property Name="TeacherID" Type="int" />
+          <Property Name="AnswerScore" Type="int" />
+          <Property Name="AnswerTime" Type="datetime" />
+          <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="BatchTime" Type="datetime" />
+          <Property Name="AnswerState" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Detail">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnswerID" Type="int" Nullable="false" />
+          <Property Name="TopicID" Type="int" Nullable="false" />
+          <Property Name="DetailAnswer" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pid" Type="int" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="PaperID" />
+          </Key>
+          <Property Name="PaperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PaperExplain" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PaperTime" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="R_Role_Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="MenuID" Type="int" />
+        </EntityType>
+        <EntityType Name="R_User_Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="RoleID" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StuID" />
+          </Key>
+          <Property Name="StuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StuName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="StuLoginName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="StuLoginPwd" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="StuSex" Type="bit" Nullable="false" />
+          <Property Name="StuPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="StuEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="StuGrade" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+          </Key>
+          <Property Name="TeacherID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeacherName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TeacherLoginName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TeacherLoginPwd" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TeacherPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="TeacherEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicID" />
+          </Key>
+          <Property Name="TopicID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TopicExplain" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TopicScore" Type="int" Nullable="false" />
+          <Property Name="TopicType" Type="int" Nullable="false" />
+          <Property Name="TopicA" Type="nvarchar" MaxLength="100" />
+          <Property Name="TopicB" Type="nvarchar" MaxLength="100" />
+          <Property Name="TopicC" Type="nvarchar" MaxLength="100" />
+          <Property Name="TopicD" Type="nvarchar" MaxLength="100" />
+          <Property Name="TopicSort" Type="int" Nullable="false" />
+          <Property Name="TopicAnswer" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInfos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentID" Type="int" />
+          <Property Name="Account" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pwd" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“AccountDB.dbo.v_user_menus”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="v_user_menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserID" Type="int" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pid" Type="int" />
+          <Property Name="rName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“AccountDB.dbo.v_User_Role_Menu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="v_User_Role_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserID" Type="int" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pid" Type="int" />
+        </EntityType>
+        <Association Name="FK__Answer__PaperID__5812160E">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="PaperID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__StuID__59063A47">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StuID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="StuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__TeacherI__59FA5E80">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail__AnswerID__5AEE82B9">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Detail" Type="Self.Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="AnswerID" />
+            </Principal>
+            <Dependent Role="Detail">
+              <PropertyRef Name="AnswerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail__TopicID__5BE2A6F2">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+          <End Role="Detail" Type="Self.Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicID" />
+            </Principal>
+            <Dependent Role="Detail">
+              <PropertyRef Name="TopicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Topic__PaperID__5CD6CB2B">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="PaperID" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Role_Menus_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+          <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_Role_Menus">
+              <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Role_Menus_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_Role_Menus">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_User_Roles_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_User_Roles">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_User_Roles_UserInfos">
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+          <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_User_Roles">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_UserInfos">
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_UserInfos">
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Teacher">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfos_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInfos">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccountDBModelStoreContainer">
+          <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detail" EntityType="Self.Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper" EntityType="Self.Paper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="R_Role_Menus" EntityType="Self.R_Role_Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="R_User_Roles" EntityType="Self.R_User_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfos" EntityType="Self.UserInfos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_user_menus" EntityType="Self.v_user_menus" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_user_menus].[UserID] AS [UserID], 
+    [v_user_menus].[ID] AS [ID], 
+    [v_user_menus].[Name] AS [Name], 
+    [v_user_menus].[Url] AS [Url], 
+    [v_user_menus].[Remark] AS [Remark], 
+    [v_user_menus].[Pid] AS [Pid], 
+    [v_user_menus].[rName] AS [rName]
+    FROM [dbo].[v_user_menus] AS [v_user_menus]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_User_Role_Menu" EntityType="Self.v_User_Role_Menu" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_User_Role_Menu].[UserID] AS [UserID], 
+    [v_User_Role_Menu].[ID] AS [ID], 
+    [v_User_Role_Menu].[Url] AS [Url], 
+    [v_User_Role_Menu].[Name] AS [Name], 
+    [v_User_Role_Menu].[Remark] AS [Remark], 
+    [v_User_Role_Menu].[Pid] AS [Pid]
+    FROM [dbo].[v_User_Role_Menu] AS [v_User_Role_Menu]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Answer__PaperID__5812160E" Association="Self.FK__Answer__PaperID__5812160E">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__StuID__59063A47" Association="Self.FK__Answer__StuID__59063A47">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__TeacherI__59FA5E80" Association="Self.FK__Answer__TeacherI__59FA5E80">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail__AnswerID__5AEE82B9" Association="Self.FK__Detail__AnswerID__5AEE82B9">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Detail" EntitySet="Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail__TopicID__5BE2A6F2" Association="Self.FK__Detail__TopicID__5BE2A6F2">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Detail" EntitySet="Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Topic__PaperID__5CD6CB2B" Association="Self.FK__Topic__PaperID__5CD6CB2B">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Role_Menus_Menus" Association="Self.FK_R_Role_Menus_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Role_Menus_Roles" Association="Self.FK_R_Role_Menus_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_User_Roles_Roles" Association="Self.FK_R_User_Roles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_User_Roles_UserInfos" Association="Self.FK_R_User_Roles_UserInfos">
+            <End Role="UserInfos" EntitySet="UserInfos" />
+            <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_UserInfos" Association="Self.FK_Student_UserInfos">
+            <End Role="UserInfos" EntitySet="UserInfos" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_UserInfos" Association="Self.FK_Teacher_UserInfos">
+            <End Role="UserInfos" EntitySet="UserInfos" />
+            <End Role="Teacher" EntitySet="Teacher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfos_Departments" Association="Self.FK_UserInfos_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="UserInfos" EntitySet="UserInfos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AccountDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="AnswerID" />
+          </Key>
+          <Property Name="AnswerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperID" Type="Int32" Nullable="false" />
+          <Property Name="StuID" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="Int32" />
+          <Property Name="AnswerScore" Type="Int32" />
+          <Property Name="AnswerTime" Type="DateTime" Precision="3" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+          <Property Name="BatchTime" Type="DateTime" Precision="3" />
+          <Property Name="AnswerState" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK__Answer__PaperID__5812160E" FromRole="Answer" ToRole="Paper" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__Answer__StuID__59063A47" FromRole="Answer" ToRole="Student" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK__Answer__TeacherI__59FA5E80" FromRole="Answer" ToRole="Teacher" />
+          <NavigationProperty Name="Detail" Relationship="Self.FK__Detail__AnswerID__5AEE82B9" FromRole="Answer" ToRole="Detail" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserInfos" Relationship="Self.FK_UserInfos_Departments" FromRole="Departments" ToRole="UserInfos" />
+        </EntityType>
+        <EntityType Name="Detail">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnswerID" Type="Int32" Nullable="false" />
+          <Property Name="TopicID" Type="Int32" Nullable="false" />
+          <Property Name="DetailAnswer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Detail__AnswerID__5AEE82B9" FromRole="Detail" ToRole="Answer" />
+          <NavigationProperty Name="Topic" Relationship="Self.FK__Detail__TopicID__5BE2A6F2" FromRole="Detail" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pid" Type="Int32" />
+          <NavigationProperty Name="R_Role_Menus" Relationship="Self.FK_R_Role_Menus_Menus" FromRole="Menus" ToRole="R_Role_Menus" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="PaperID" />
+          </Key>
+          <Property Name="PaperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PaperExplain" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PaperTime" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__PaperID__5812160E" FromRole="Paper" ToRole="Answer" />
+          <NavigationProperty Name="Topic" Relationship="Self.FK__Topic__PaperID__5CD6CB2B" FromRole="Paper" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="R_Role_Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="MenuID" Type="Int32" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_R_Role_Menus_Menus" FromRole="R_Role_Menus" ToRole="Menus" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_R_Role_Menus_Roles" FromRole="R_Role_Menus" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="R_User_Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_R_User_Roles_Roles" FromRole="R_User_Roles" ToRole="Roles" />
+          <NavigationProperty Name="UserInfos" Relationship="Self.FK_R_User_Roles_UserInfos" FromRole="R_User_Roles" ToRole="UserInfos" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="R_Role_Menus" Relationship="Self.FK_R_Role_Menus_Roles" FromRole="Roles" ToRole="R_Role_Menus" />
+          <NavigationProperty Name="R_User_Roles" Relationship="Self.FK_R_User_Roles_Roles" FromRole="Roles" ToRole="R_User_Roles" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StuID" />
+          </Key>
+          <Property Name="StuID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StuName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StuLoginName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StuLoginPwd" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StuSex" Type="Boolean" Nullable="false" />
+          <Property Name="StuPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="StuEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StuGrade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__StuID__59063A47" FromRole="Student" ToRole="Answer" />
+          <NavigationProperty Name="UserInfos" Relationship="Self.FK_Student_UserInfos" FromRole="Student" ToRole="UserInfos" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+          </Key>
+          <Property Name="TeacherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeacherName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TeacherLoginName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TeacherLoginPwd" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TeacherPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TeacherEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__TeacherI__59FA5E80" FromRole="Teacher" ToRole="Answer" />
+          <NavigationProperty Name="UserInfos" Relationship="Self.FK_Teacher_UserInfos" FromRole="Teacher" ToRole="UserInfos" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicID" />
+          </Key>
+          <Property Name="TopicID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TopicExplain" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TopicScore" Type="Int32" Nullable="false" />
+          <Property Name="TopicType" Type="Int32" Nullable="false" />
+          <Property Name="TopicA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TopicB" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TopicC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TopicD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TopicSort" Type="Int32" Nullable="false" />
+          <Property Name="TopicAnswer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PaperID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Detail" Relationship="Self.FK__Detail__TopicID__5BE2A6F2" FromRole="Topic" ToRole="Detail" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK__Topic__PaperID__5CD6CB2B" FromRole="Topic" ToRole="Paper" />
+        </EntityType>
+        <EntityType Name="UserInfos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentID" Type="Int32" />
+          <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK_UserInfos_Departments" FromRole="UserInfos" ToRole="Departments" />
+          <NavigationProperty Name="R_User_Roles" Relationship="Self.FK_R_User_Roles_UserInfos" FromRole="UserInfos" ToRole="R_User_Roles" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Student_UserInfos" FromRole="UserInfos" ToRole="Student" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Teacher_UserInfos" FromRole="UserInfos" ToRole="Teacher" />
+        </EntityType>
+        <Association Name="FK__Answer__PaperID__5812160E">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="PaperID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__StuID__59063A47">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StuID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="StuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__TeacherI__59FA5E80">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail__AnswerID__5AEE82B9">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Detail" Type="Self.Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="AnswerID" />
+            </Principal>
+            <Dependent Role="Detail">
+              <PropertyRef Name="AnswerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfos_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInfos">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail__TopicID__5BE2A6F2">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+          <End Role="Detail" Type="Self.Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicID" />
+            </Principal>
+            <Dependent Role="Detail">
+              <PropertyRef Name="TopicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Role_Menus_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+          <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_Role_Menus">
+              <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Topic__PaperID__5CD6CB2B">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="PaperID" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_Role_Menus_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_Role_Menus">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_User_Roles_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_User_Roles">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_R_User_Roles_UserInfos">
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+          <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="R_User_Roles">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_UserInfos">
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_UserInfos">
+          <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Teacher">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccountDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Answer" EntityType="Self.Answer" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" />
+          <EntitySet Name="Detail" EntityType="Self.Detail" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" />
+          <EntitySet Name="Paper" EntityType="Self.Paper" />
+          <EntitySet Name="R_Role_Menus" EntityType="Self.R_Role_Menus" />
+          <EntitySet Name="R_User_Roles" EntityType="Self.R_User_Roles" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <EntitySet Name="Topic" EntityType="Self.Topic" />
+          <EntitySet Name="UserInfos" EntityType="Self.UserInfos" />
+          <AssociationSet Name="FK__Answer__PaperID__5812160E" Association="Self.FK__Answer__PaperID__5812160E">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__StuID__59063A47" Association="Self.FK__Answer__StuID__59063A47">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__TeacherI__59FA5E80" Association="Self.FK__Answer__TeacherI__59FA5E80">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail__AnswerID__5AEE82B9" Association="Self.FK__Detail__AnswerID__5AEE82B9">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Detail" EntitySet="Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfos_Departments" Association="Self.FK_UserInfos_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="UserInfos" EntitySet="UserInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail__TopicID__5BE2A6F2" Association="Self.FK__Detail__TopicID__5BE2A6F2">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Detail" EntitySet="Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Role_Menus_Menus" Association="Self.FK_R_Role_Menus_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Topic__PaperID__5CD6CB2B" Association="Self.FK__Topic__PaperID__5CD6CB2B">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_Role_Menus_Roles" Association="Self.FK_R_Role_Menus_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_User_Roles_Roles" Association="Self.FK_R_User_Roles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_R_User_Roles_UserInfos" Association="Self.FK_R_User_Roles_UserInfos">
+            <End Role="UserInfos" EntitySet="UserInfos" />
+            <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_UserInfos" Association="Self.FK_Student_UserInfos">
+            <End Role="UserInfos" EntitySet="UserInfos" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_UserInfos" Association="Self.FK_Teacher_UserInfos">
+            <End Role="UserInfos" EntitySet="UserInfos" />
+            <End Role="Teacher" EntitySet="Teacher" />
+          </AssociationSet>
+          <EntitySet Name="v_user_menus" EntityType="AccountDBModel.v_user_menus" />
+          <EntitySet Name="v_User_Role_Menu" EntityType="AccountDBModel.v_User_Role_Menu" />
+        </EntityContainer>
+        <EntityType Name="v_user_menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pid" Type="Int32" />
+          <Property Name="rName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="v_User_Role_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pid" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AccountDBModelStoreContainer" CdmEntityContainer="AccountDBEntities">
+          <EntitySetMapping Name="Answer">
+            <EntityTypeMapping TypeName="AccountDBModel.Answer">
+              <MappingFragment StoreEntitySet="Answer">
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="StuID" ColumnName="StuID" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="AnswerScore" ColumnName="AnswerScore" />
+                <ScalarProperty Name="AnswerTime" ColumnName="AnswerTime" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="BatchTime" ColumnName="BatchTime" />
+                <ScalarProperty Name="AnswerState" ColumnName="AnswerState" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="AccountDBModel.Departments">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detail">
+            <EntityTypeMapping TypeName="AccountDBModel.Detail">
+              <MappingFragment StoreEntitySet="Detail">
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+                <ScalarProperty Name="DetailAnswer" ColumnName="DetailAnswer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="AccountDBModel.Menus">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paper">
+            <EntityTypeMapping TypeName="AccountDBModel.Paper">
+              <MappingFragment StoreEntitySet="Paper">
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="PaperName" ColumnName="PaperName" />
+                <ScalarProperty Name="PaperExplain" ColumnName="PaperExplain" />
+                <ScalarProperty Name="PaperTime" ColumnName="PaperTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="R_Role_Menus">
+            <EntityTypeMapping TypeName="AccountDBModel.R_Role_Menus">
+              <MappingFragment StoreEntitySet="R_Role_Menus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="R_User_Roles">
+            <EntityTypeMapping TypeName="AccountDBModel.R_User_Roles">
+              <MappingFragment StoreEntitySet="R_User_Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="AccountDBModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="AccountDBModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="StuID" ColumnName="StuID" />
+                <ScalarProperty Name="StuName" ColumnName="StuName" />
+                <ScalarProperty Name="StuLoginName" ColumnName="StuLoginName" />
+                <ScalarProperty Name="StuLoginPwd" ColumnName="StuLoginPwd" />
+                <ScalarProperty Name="StuSex" ColumnName="StuSex" />
+                <ScalarProperty Name="StuPhone" ColumnName="StuPhone" />
+                <ScalarProperty Name="StuEmail" ColumnName="StuEmail" />
+                <ScalarProperty Name="StuGrade" ColumnName="StuGrade" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AccountDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="AccountDBModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
+                <ScalarProperty Name="TeacherLoginName" ColumnName="TeacherLoginName" />
+                <ScalarProperty Name="TeacherLoginPwd" ColumnName="TeacherLoginPwd" />
+                <ScalarProperty Name="TeacherPhone" ColumnName="TeacherPhone" />
+                <ScalarProperty Name="TeacherEmail" ColumnName="TeacherEmail" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topic">
+            <EntityTypeMapping TypeName="AccountDBModel.Topic">
+              <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+                <ScalarProperty Name="TopicExplain" ColumnName="TopicExplain" />
+                <ScalarProperty Name="TopicScore" ColumnName="TopicScore" />
+                <ScalarProperty Name="TopicType" ColumnName="TopicType" />
+                <ScalarProperty Name="TopicA" ColumnName="TopicA" />
+                <ScalarProperty Name="TopicB" ColumnName="TopicB" />
+                <ScalarProperty Name="TopicC" ColumnName="TopicC" />
+                <ScalarProperty Name="TopicD" ColumnName="TopicD" />
+                <ScalarProperty Name="TopicSort" ColumnName="TopicSort" />
+                <ScalarProperty Name="TopicAnswer" ColumnName="TopicAnswer" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfos">
+            <EntityTypeMapping TypeName="AccountDBModel.UserInfos">
+              <MappingFragment StoreEntitySet="UserInfos">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_user_menus">
+            <EntityTypeMapping TypeName="AccountDBModel.v_user_menus">
+              <MappingFragment StoreEntitySet="v_user_menus">
+                <ScalarProperty Name="rName" ColumnName="rName" />
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_User_Role_Menu">
+            <EntityTypeMapping TypeName="AccountDBModel.v_User_Role_Menu">
+              <MappingFragment StoreEntitySet="v_User_Role_Menu">
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

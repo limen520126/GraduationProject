@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using Account1.Models;
+@{ 
+    UserInfos user = ViewBag.User;
+}
+<ul class="breadcrumb">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">用户管理</a></li>
+    <li class="active">用户修改</li>
+</ul>
+
+<form method="post" action="" class="form-horizontal" name="form1" enctype="multipart/form-data">
+    <input type="hidden" id="ID" name="ID" value="@user.ID"/>
+    <div class="form-group">
+        <label for="Name">姓名：</label>
+        <input type="text" name="Name" id="Name" value="@user.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="DepartmentID">部门：</label>
+        <select name="DepartmentID" id="DepartmentID" class="form-control">
+            @foreach (var item in ViewBag.Departments as List<Departments>)
+            {
+                if (user.DepartmentID == item.ID)
+                {
+                    <option value="@item.ID" selected>@item.Name</option>
+                }
+                else
+                {
+                    <option value="@item.ID">@item.Name</option>
+                }
+
+            }
+
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <label for="Sex">性别：</label>
+        @if (user.Sex == true)
+        {
+            <input type="radio" name="Sex" id="Sex" value="true" checked /> @:男
+            <input type = "radio" name = "Sex" id = "Sex" value = "false" /> @:女
+        }
+        else
+        {
+            <input type="radio" name="Sex" id="Sex" value="true"  />@:男
+            <input type = "radio" name = "Sex" id = "Sex" value = "false" checked /> @:女
+        }
+
+    </div>
+    <div class="form-group">
+        <label for="Account">账号：</label>
+        <input type="text" name="Account" id="Account" value="@user.Account" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="roles">角色：</label>
+        @foreach (var item in ViewBag.Roles as List<Account1.Models.Roles>)
+        {
+            bool check = false;
+            foreach (var rur in ViewBag.Rur as List<R_User_Roles>)
+            {
+                if (rur.RoleID == item.ID)
+                {
+                    check = true;
+                    break;
+                }
+            }
+            <input type="checkbox" name="roles" id="roles" value="@item.ID" checked="@check"/> @item.Name
+        }
+    </div>
+    <div class="form-group">
+        <label for="Pwd">密码：</label>
+        <input type="password" name="Pwd" id="Pwd" value="@user.Pwd" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Photo">照片：</label>
+        <img src="~/Content/images/users/@user.Photo" height="50"/>
+        @* 保留该用户以前的图片 *@
+        <input type="hidden" name="Photo" id="Photo" value="@user.Photo"/>
+        @* 提供修改，再选择图片 *@
+        <input type="file" name="EPhoto" id="EPhoto" />
+    </div>
+    <div class="form-group">
+        <label for="Remark">备注：</label>
+        <textarea rows="5" name="Remark" id="Remark" class="form-control" value="@user.Remark"></textarea>
+    </div>
+    <div>
+        <a href="javascript:history.go(-1)">返回</a>
+        <input type="submit" value="保存" class="btn btn-primary" />
+    </div>
+</form>

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AccountDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserInfos" Relationship="Self.FK_UserInfos_Departments" FromRole="Departments" ToRole="UserInfos" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pid" Type="Int32" />
+    <NavigationProperty Name="R_Role_Menus" Relationship="Self.FK_R_Role_Menus_Menus" FromRole="Menus" ToRole="R_Role_Menus" />
+  </EntityType>
+  <EntityType Name="R_Role_Menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="MenuID" Type="Int32" />
+    <NavigationProperty Name="Menus" Relationship="Self.FK_R_Role_Menus_Menus" FromRole="R_Role_Menus" ToRole="Menus" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_R_Role_Menus_Roles" FromRole="R_Role_Menus" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="R_User_Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="RoleID" Type="Int32" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_R_User_Roles_Roles" FromRole="R_User_Roles" ToRole="Roles" />
+    <NavigationProperty Name="UserInfos" Relationship="Self.FK_R_User_Roles_UserInfos" FromRole="R_User_Roles" ToRole="UserInfos" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="R_Role_Menus" Relationship="Self.FK_R_Role_Menus_Roles" FromRole="Roles" ToRole="R_Role_Menus" />
+    <NavigationProperty Name="R_User_Roles" Relationship="Self.FK_R_User_Roles_Roles" FromRole="Roles" ToRole="R_User_Roles" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="UserInfos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DepartmentID" Type="Int32" />
+    <Property Name="Sex" Type="Boolean" />
+    <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Departments" Relationship="Self.FK_UserInfos_Departments" FromRole="UserInfos" ToRole="Departments" />
+    <NavigationProperty Name="R_User_Roles" Relationship="Self.FK_R_User_Roles_UserInfos" FromRole="UserInfos" ToRole="R_User_Roles" />
+  </EntityType>
+  <Association Name="FK_UserInfos_Departments">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserInfos">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_Role_Menus_Menus">
+    <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+    <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_Role_Menus">
+        <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_Role_Menus_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="R_Role_Menus" Type="Self.R_Role_Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_Role_Menus">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_User_Roles_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_User_Roles">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_R_User_Roles_UserInfos">
+    <End Role="UserInfos" Type="Self.UserInfos" Multiplicity="0..1" />
+    <End Role="R_User_Roles" Type="Self.R_User_Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="R_User_Roles">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AccountDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departments" EntityType="Self.Departments" />
+    <EntitySet Name="Menus" EntityType="Self.Menus" />
+    <EntitySet Name="R_Role_Menus" EntityType="Self.R_Role_Menus" />
+    <EntitySet Name="R_User_Roles" EntityType="Self.R_User_Roles" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="UserInfos" EntityType="Self.UserInfos" />
+    <AssociationSet Name="FK_UserInfos_Departments" Association="Self.FK_UserInfos_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="UserInfos" EntitySet="UserInfos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_Role_Menus_Menus" Association="Self.FK_R_Role_Menus_Menus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_Role_Menus_Roles" Association="Self.FK_R_Role_Menus_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="R_Role_Menus" EntitySet="R_Role_Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_User_Roles_Roles" Association="Self.FK_R_User_Roles_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_R_User_Roles_UserInfos" Association="Self.FK_R_User_Roles_UserInfos">
+      <End Role="UserInfos" EntitySet="UserInfos" />
+      <End Role="R_User_Roles" EntitySet="R_User_Roles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

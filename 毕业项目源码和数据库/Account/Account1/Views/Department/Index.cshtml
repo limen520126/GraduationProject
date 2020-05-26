@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@using Account1.Models;
+@model  List<Departments>
+<h2>部门列表</h2>
+<table class="table table-bordered table-hover table-condensed">
+    <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th>备注</th>
+        <th>该部门人员</th>
+        <th>人员数</th>
+        <th>修改</th>
+        <th>删除</th>
+    </tr>
+    @foreach (var department in Model)
+    {
+<tr>
+    <td>@department.ID</td>
+    <td>@department.Name</td>
+    <td>@department.Remark</td>
+    <td>
+        @foreach (var user in department.UserInfos)
+        {
+            @user.Name <br/>
+        }
+    </td>
+    <td>@department.UserInfos.Count</td>
+    <td>修改</td>
+    <td>删除</td>
+</tr>
+    }
+</table>

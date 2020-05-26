@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@using Account.Models;
+@model  List<UserInfos>
+<nav aria-label="breadCrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/home/index">首页</a>
+        </li>
+        <li class="breadcrumb-item active">
+            用户管理
+        </li>
+    </ol>
+</nav>
+
+@*按钮组和搜索框,用弹性布局*@
+<div class="d-flex justify-content-between">
+    <div class="col-lg-6">
+        <a href="/user/add" class="btn btn-primary">新增</a>
+        <a href="/user/import" class="btn btn-primary">导入</a>
+        <a href="#" class="btn btn-primary" id="deleteBtn">批量删除</a>
+    </div>
+    <div class="col-lg-6">
+        <form class="form-inline" action="/user/index" method="post">
+            <div class="form-group">
+                <label for="ddlCondDepartment">部门：</label>
+                <select id="ddlCondDepartment" name="DepartmentID" class="form-control">
+                    <option value="0">==请选择部门==</option>
+                    @foreach (var item in ViewBag.departments)
+                    {
+                        if (item.ID == @ViewBag.DepartmentID)
+                        {
+                            <option value="@item.ID" selected="selected">@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ID">@item.Name</option>
+                        }
+
+
+
+                    }
+                </select>
+            </div>
+            
+            <input type="submit" class="btn btn-primary" id="btnSearch" value="搜索" />
+        </form>
+    </div>
+</div>
+
+
+
+
+
+<table class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>选择</th>
+            <th>编号</th>
+            <th>部门</th>
+            <th>账号</th>
+            <th>密码</th>
+            <th>该账号拥有的角色</th>
+            <th>设置角色</th>
+            <th>删除</th>
+            <th>修改</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)   //约定好的，用Model接收 action/控制器传过来的模型userinfos
+        {
+            <tr>
+                <td><input type="checkbox" name="UserID" id="UserID" value="@item.ID"/></td>
+                <td>@item.ID</td>
+                <td>
+                    @if (@item.Departments != null)
+                    {
+                        @item.Departments.Name
+                    }
+
+                </td>
+                
+                <td>@item.Account</td>
+                <td>@item.Pwd</td>
+                
+                <td>
+                    @foreach (var i in item.R_User_Roles)
+                    {
+                        @i.Roles.Name
+
+                        <a href="/RUserRole/Delete/@i.ID" onclick="return confirm('确认删除吗？')">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                        <br />
+                    }
+                </td>
+                <td>
+                    <a href="/user/SetRole?userID=@item.ID">设置角色</a>
+
+                </td>
+
+                <td>
+                    <a href="/user/delete/@item.ID" onclick="return confirm('是否删除')">删除</a>
+
+                </td>
+                <td>
+                    <a href="/user/edit/@item.ID">修改</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+<div class="d-flex justify-content-between">
+    <ul class="pagination col-lg-8">
+        <li class="page-item">总共 @ViewBag.totalCount 条记录</li>
+        <li class="page-item">
+            <select onchange="window.location = this.value;">
+                @{
+                    var pageSizes = new int[5] { 5, 10, 20, 50, 100 };
+                    foreach (var item in pageSizes)
+                    {
+                        //下来项当前的选中项，应该是当前每页显示条数
+                        if (item == @ViewBag.pageCount)
+                        {
+                            <option selected="selected" value="/user/index?departmentid=@ViewBag.DepartmentID&name=@ViewBag.Name&pageindex=1&pageCount=@item">
+                                @item
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="/user/index?departmentid=@ViewBag.DepartmentID&name=@ViewBag.Name&pageindex=1&pageCount=@item">
+                                @item
+                            </option>
+                        }
+                    }
+                }
+
+            </select>
+        </li>
+    </ul>
+    <ul class="pagination col-lg-4">
+        <li class="page-item"><a class="page-link" href="/user/index?departmentid=@ViewBag.DepartmentID&name=@ViewBag.Name&pageindex=1&pageCount=@ViewBag.pageCount">首页</a></li>
+        @if (ViewBag.pageIndex > 1)
+        {
+            <li class="page-item"><a class="page-link" href="/user/index?departmentid=@ViewBag.DepartmentID&name=@ViewBag.Name&pageindex=@(ViewBag.pageIndex-1) &pageCount=@ViewBag.pageCount">上一页</a></li>
+        }
+        else
+        {
+            <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+        }
+
+        <li class="page-item active"><a class="page-link" href="#">@ViewBag.pageIndex </a></li>
+        @if (ViewBag.pageIndex < ViewBag.totalPage)
+        {
+            <li class="page-item"><a class="page-link" href="/user/index?departmentid=@ViewBag.DepartmentID&name=@ViewBag.Name&pageindex=@(ViewBag.pageIndex+1) &pageCount=@ViewBag.pageCount">下一页</a></li>
+        }
+        else
+        {
+            <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+        }
+
+        <li class="page-item"><a class="page-link" href="/user/index?departmentid=@ViewBag.DepartmentID&name=@ViewBag.Name&pageindex=@ViewBag.totalPage &pageCount=@ViewBag.pageCount">末页</a></li>
+    </ul>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#deleteBtn").click(function () {
+                var checkedNum = $("input[name='UserID']:checked").length;
+                if (checkedNum == 0) {
+                    alert("至少选择一项！");
+                    return;
+                }
+                // 批量选择
+                if (confirm("确定要删除所选项目？")) {
+                    var checkedList = new Array();
+                    //each循环执行
+                    $("input[name='UserID']:checked").each(function () {
+                        //push可向数组的末尾添加一个或多个元素,并返回新的长度
+                        checkedList.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/deleteAll",
+                        data: { 'delItems': checkedList.toString() },
+                        dataType: "text",
+                        success: function (result) {
+                            alert(result);
+                            $("[name ='UserID']:checkbox").attr("checked", false);
+                            window.location.reload();
+                        }
+                    });
+                }
+
+
+            })
+        })
+    </script>
+}
